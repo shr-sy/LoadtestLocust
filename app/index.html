@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake Arena</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">GARDEN ARCADE / 001</p>
+      <h1>Snake Arena</h1>
+      <p class="lede">Wind through the garden maze, collect the harvest, and grow your champion snake one bite at a time.</p>
+    </section>
+    <section class="game-layout" aria-label="Snake game">
+      <div class="board-wrap">
+        <canvas id="game" width="480" height="480" aria-label="Snake game board"></canvas>
+        <div id="overlay" class="overlay">
+          <p id="overlay-title">Ready when you are</p>
+          <button id="start" type="button">Start game</button>
+        </div>
+      </div>
+      <aside class="score-panel">
+        <div class="score-block"><span>Score</span><strong id="score">0</strong></div>
+        <div class="score-block"><span>Best</span><strong id="best">0</strong></div>
+        <div class="rule"></div>
+        <div class="legend">
+          <span class="legend-title">Harvest rewards</span>
+          <span><i class="fruit apple"></i> Apple +10</span>
+          <span><i class="fruit carrot"></i> Carrot +15</span>
+          <span><i class="fruit berry"></i> Berry +20</span>
+        </div>
+        <p class="hint">Use arrow keys or WASD to steer. Press space to pause.</p>
+        <button id="reset" class="secondary" type="button">Reset</button>
+      </aside>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
