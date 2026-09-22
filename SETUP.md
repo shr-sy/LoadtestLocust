@@ -225,6 +225,36 @@ Remove the network:
 podman network rm snake-loadtest
 ```
 
+## 6. Access From Another Laptop
+
+`localhost` works only on the machine running Podman. For another device on the same Wi-Fi or LAN, find the Podman host laptop's IPv4 address:
+
+```powershell
+ipconfig
+```
+
+Find the active adapter's `IPv4 Address`, for example `192.168.1.25`. On the other laptop, use:
+
+```text
+Snake application: http://192.168.1.25:8080
+Locust Web UI:    http://192.168.1.25:8089
+```
+
+Allow the two ports through Windows Firewall. Run PowerShell as Administrator on the Podman host:
+
+```powershell
+New-NetFirewallRule -DisplayName 'Snake Game 8080' -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow
+New-NetFirewallRule -DisplayName 'Locust Web UI 8089' -Direction Inbound -Protocol TCP -LocalPort 8089 -Action Allow
+```
+
+The other laptop must be on the same network, and the Podman host must remain powered on with the containers running:
+
+```powershell
+podman ps
+```
+
+Do not expose port `8089` directly to the public internet. Locust's dashboard is an operational control panel and should be protected behind VPN, an authenticated reverse proxy, or a private tunnel. The application can be shared publicly through a properly secured tunnel or deployed to a hosted server.
+
 ## Optional Compose Commands
 
 The project includes `podman-compose.yml` with the same topology. If a Compose provider is installed:
