@@ -1,0 +1,60 @@
+services:
+  snake-game:
+    build:
+      context: ./app
+      dockerfile: Containerfile
+    image: localhost/snake-game:local
+    container_name: snake-game
+    ports:
+      - "8080:80"
+    networks:
+      - loadtest
+
+  locust-master:
+    build:
+      context: ./locust
+      dockerfile: Containerfile
+    image: localhost/snake-locust:local
+    container_name: locust-master
+    command:
+      - --master
+      - --master-bind-host=0.0.0.0
+      - --master-bind-port=5557
+      - --web-host=0.0.0.0
+      - --web-port=8089
+      - --locustfile=/mnt/locust/locustfile.py
+    ports:
+      - "8089:8089"
+      - "5557:5557"
+    networks:
+      - loadtest
+
+  locust-worker-1:
+    image: localhost/snake-locust:local
+    container_name: locust-worker-1
+    command:
+      - --worker
+      - --master-host=locust-master
+      - --master-port=5557
+      - --locustfile=/mnt/locust/locustfile.py
+    depends_on:
+      - locust-master
+    networks:
+      - loadtest
+
+  locust-worker-2:
+    image: localhost/snake-locust:local
+    container_name: locust-worker-2
+    command:
+      - --worker
+      - --master-host=locust-master
+      - --master-port=5557
+      - --locustfile=/mnt/locust/locustfile.py
+    depends_on:
+      - locust-master
+    networks:
+      - loadtest
+
+networks:
+  loadtest:
+    name: snake-loadtest
